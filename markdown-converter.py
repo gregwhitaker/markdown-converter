@@ -2,17 +2,18 @@ import os
 import sys
 import argparse
 import markdown2
-import colorama
+from colorama import Fore
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Converts Markdown files to HTML')
     parser.add_argument('--dir', action='store', dest='walk_dir', help='Directory to recursively search for Markdown files')
-
     args = parser.parse_args()
 
-    print('walk_dir = ' + args.walk_dir)
+    abs_path = os.path.abspath(args.walk_dir)
 
-    for root, subdirs, files in os.walk(args.walk_dir):
+    print(Fore.GREEN + "Searching '" + Fore.YELLOW + abs_path + Fore.GREEN + "' recursively for markdown files..." + Fore.RESET)
+
+    for root, subdirs, files in os.walk(abs_path):
         print('--\nroot = ' + root)
         list_file_path = os.path.join(root, 'my-directory-list.txt')
         print('list_file_path = ' + list_file_path)
