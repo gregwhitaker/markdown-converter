@@ -4,9 +4,14 @@ import argparse
 import markdown2
 from colorama import Fore
 
+def css_content(css_dir):
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Converts Markdown files to HTML')
-    parser.add_argument('--dir', action='store', dest='walk_dir', help='Directory to recursively search for Markdown files')
+    parser.add_argument('--input-dir', action='store', dest='walk_dir', help='Directory to recursively search for Markdown files')
+    parser.add_argument('--css-dir', action='store', dest='css_dir', default=None, help='Directory to recursively search for CSS files')
+
     args = parser.parse_args()
 
     abs_path = os.path.abspath(args.walk_dir)
@@ -30,10 +35,37 @@ if __name__ == '__main__':
                     f_content = f.read()
 
                     markdowner = markdown2.Markdown()
-                    html_content = markdowner.convert(f_content)
+
+                    if not args.css is None:
+                        html_content = """<!DOCTYPE html>
+                                          <html lang="en">
+                                            <head>
+                                                <meta charset="utf-8">
+                                                <style type="text/css">
+                                        """
+                        html_content = css_content()
+
+                        html_content += """
+                                                </style>
+                                            </head>
+
+                                            <body>
+                                        """
+
+                        html_content = markdowner.convert(f_content)
+
+                        html_content += """ </body>
+
+                                           </html>
+                                        """
+                    else:
+                        # No CSS
+                        html_content = markdowner.convert(f_content)
 
                     html_file_path = file_path.rstrip(".md") + ".html"
 
                     with open(html_file_path, "wb") as html_file:
                         html_file.write(html_content)
                         html_file.write(b'\n')
+
+
