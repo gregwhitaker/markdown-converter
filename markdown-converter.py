@@ -5,7 +5,29 @@ import markdown2
 from colorama import Fore
 
 def css_content(css_dir):
+    """
 
+    """
+    abs_path = os.path.abspath(css_dir)
+
+    print(Fore.GREEN + "Searching '" + Fore.YELLOW + abs_path + Fore.GREEN + "' recursively for css files..." + Fore.RESET)
+
+    content = ""
+
+    for root, subdirs, files in os.walk(abs_path):
+        print(Fore.GREEN + "Searching '" + Fore.YELLOW + root + Fore.GREEN + "'" + Fore.RESET)
+
+        for filename in files:
+            if filename.endswith(".css"):
+                print(Fore.GREEN + "    Found '" + Fore.YELLOW + filename + Fore.GREEN + "'" + Fore.RESET)
+
+                file_path = os.path.join(root, filename)
+
+                with open(file_path, 'rb') as f:
+                    f_content = f.read()
+                    content = content + "/n" + f_content
+
+    return content
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Converts Markdown files to HTML')
@@ -16,13 +38,13 @@ if __name__ == '__main__':
 
     abs_path = os.path.abspath(args.walk_dir)
 
+    if not args.css_dir is None:
+        abs_path_css = os.path.abspath(args.css_dir)
+        css_file_content = css_content(abs_path_css)
+
     print(Fore.GREEN + "Searching '" + Fore.YELLOW + abs_path + Fore.GREEN + "' recursively for markdown files..." + Fore.RESET)
 
     for root, subdirs, files in os.walk(abs_path):
-        print('--\nroot = ' + root)
-        list_file_path = os.path.join(root, 'my-directory-list.txt')
-        print('list_file_path = ' + list_file_path)
-
         print(Fore.GREEN + "Searching '" + Fore.YELLOW + root + Fore.GREEN + "'" + Fore.RESET)
 
         for filename in files:
@@ -36,14 +58,14 @@ if __name__ == '__main__':
 
                     markdowner = markdown2.Markdown()
 
-                    if not args.css is None:
+                    if not abs_path_css is None:
                         html_content = """<!DOCTYPE html>
                                           <html lang="en">
                                             <head>
                                                 <meta charset="utf-8">
                                                 <style type="text/css">
                                         """
-                        html_content = css_content()
+                        html_content += css_file_content
 
                         html_content += """
                                                 </style>
@@ -52,7 +74,7 @@ if __name__ == '__main__':
                                             <body>
                                         """
 
-                        html_content = markdowner.convert(f_content)
+                        html_content += markdowner.convert(f_content)
 
                         html_content += """ </body>
 
