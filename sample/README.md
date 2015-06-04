@@ -18,7 +18,7 @@ This is some sample text.
 
 *This is italics text*
 
-![cat](/sample/images/image_0.jpg)
+![cat](images/image_0.jpg)
 
 [This is a link](http://www.google.com)
 
