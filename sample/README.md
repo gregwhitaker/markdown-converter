@@ -26,5 +26,5 @@ This is some sample text.
 
 *This is italics text*
 
-![cat](/images/image_0.jpg)
+![cat](/sample/images/image_0.jpg)
 
