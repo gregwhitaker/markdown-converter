@@ -18,17 +18,22 @@ if __name__ == '__main__':
         list_file_path = os.path.join(root, 'my-directory-list.txt')
         print('list_file_path = ' + list_file_path)
 
-        with open(list_file_path, 'wb') as list_file:
-            for subdir in subdirs:
-                print('\t- subdirectory ' + subdir)
+        print(Fore.GREEN + "Searching '" + Fore.YELLOW + root + Fore.GREEN + "'" + Fore.RESET)
 
-            for filename in files:
+        for filename in files:
+            if filename.endswith(".md"):
+                print(Fore.GREEN + "    Found '" + Fore.YELLOW + filename + Fore.GREEN + "'" + Fore.RESET)
+
                 file_path = os.path.join(root, filename)
-
-                print('\t- file %s (full path: %s)' % (filename, file_path))
 
                 with open(file_path, 'rb') as f:
                     f_content = f.read()
-                    list_file.write(('The file %s contains:\n' % filename).encode('utf-8'))
-                    list_file.write(f_content)
-                    list_file.write(b'\n')
+
+                    markdowner = markdown2.Markdown()
+                    html_content = markdowner.convert(f_content)
+
+                    html_file_path = file_path.rstrip(".md") + ".html"
+
+                    with open(html_file_path, "wb") as html_file:
+                        html_file.write(html_content)
+                        html_file.write(b'\n')
