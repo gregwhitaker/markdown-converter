@@ -1,22 +1,18 @@
 import os
 import sys
+import argparse
 import markdown2
 import colorama
 
 if __name__ == '__main__':
-    walk_dir = sys.argv[1]
+    parser = argparse.ArgumentParser(description='Converts Markdown files to HTML')
+    parser.add_argument('--dir', action='store', dest='walk_dir', help='Directory to recursively search for Markdown files')
 
-    print('walk_dir = ' + walk_dir)
+    args = parser.parse_args()
 
-    # If your current working directory may change during script execution, it's recommended to
-    # immediately convert program arguments to an absolute path. Then the variable root below will
-    # be an absolute path as well. Example:
-    # walk_dir = os.path.abspath(walk_dir)
-    print('walk_dir (absolute) = ' + os.path.abspath(walk_dir))
+    print('walk_dir = ' + args.walk_dir)
 
-    test = os.walk(walk_dir)
-
-    for root, subdirs, files in os.walk(walk_dir):
+    for root, subdirs, files in os.walk(args.walk_dir):
         print('--\nroot = ' + root)
         list_file_path = os.path.join(root, 'my-directory-list.txt')
         print('list_file_path = ' + list_file_path)
