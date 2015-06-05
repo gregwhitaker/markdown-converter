@@ -9,3 +9,8 @@ Converts Markdown files to HTML and adds styles if they are specified.
     
 * INPUT_DIR - Directory to recursively search for Markdown files.
 * CSS_DIR - Directory to recursively search for CSS files.
+
+## Running the Sample
+
+    $ python markdown_converter.py --input-dir sample --css-dir sample/css
+
