@@ -1,13 +1,11 @@
-Markdown Converter
-===
-
+# Markdown Converter
 Converts Markdown files to HTML and adds styles if they are specified.
 
 ## Installation
 
     $ pip install -r requirements.txt
     
-##Usage
+## Usage
 
     $ python markdown_converter.py --input-dir INPUT_DIR [--css-dir CSS_DIR]
     
